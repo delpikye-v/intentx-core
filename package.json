@@ -1,0 +1,79 @@
+{
+  "name": "intentx-core-z",
+  "version": "0.1.0",
+  "description": "Intent-first business logic runtime. Runs outside React. Deterministic state, computed graph, orchestrated effects.",
+
+  "license": "MIT",
+  "author": "Delpi.Kye",
+
+  "sideEffects": false,
+
+  "main": "build/index.cjs.js",
+  "module": "build/index.esm.js",
+  "types": "build/index.d.ts",
+
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/index.esm.js",
+      "require": "./build/index.cjs.js"
+    },
+    "./react": {
+      "types": "./build/react/index.d.ts",
+      "import": "./build/react/index.esm.js",
+      "require": "./build/react/index.cjs.js"
+    },
+    "./devtools": {
+      "types": "./build/devtools/index.d.ts",
+      "import": "./build/devtools/index.esm.js",
+      "require": "./build/devtools/index.cjs.js"
+    }
+  },
+
+  "files": ["build"],
+
+  "scripts": {
+    "clean": "rimraf build",
+    "build": "rollup -c",
+    "cb": "npm run clean && npm run build",
+    "prepublishOnly": "npm run cb"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/delpikye-v/intentx-core.git"
+  },
+
+  "homepage": "https://github.com/delpikye-v/intentx-core#readme",
+
+  "bugs": {
+    "url": "https://github.com/delpikye-v/intentx-core/issues"
+  },
+
+  "keywords": [
+    "intent-first",
+    "logic-runtime",
+    "business-logic",
+    "headless",
+    "external-runtime",
+    "computed-state",
+    "intent-orchestration",
+    "side-effects",
+    "state-machine",
+    "react-architecture",
+    "no-hooks",
+    "backend-runtime"
+  ],
+
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.9.6",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.3.3",
+    "tslib": "^2.6.2"
+  }
+}
