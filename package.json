@@ -1,7 +1,8 @@
 {
   "name": "intentx-core-z",
-  "version": "0.1.0",
-  "description": "Intent-first business logic runtime. Runs outside React. Deterministic state, computed graph, orchestrated effects.",
+  "version": "1.0.0",
+
+  "description": "Minimal intent-first engine for business logic. Intent routing, effect orchestration, reactive graph, and deterministic scheduling. Backend-safe and UI-agnostic.",
 
   "license": "MIT",
   "author": "Delpi.Kye",
@@ -51,18 +52,22 @@
   },
 
   "keywords": [
+    "intent-engine",
     "intent-first",
     "logic-runtime",
     "business-logic",
-    "headless",
-    "external-runtime",
-    "computed-state",
-    "intent-orchestration",
-    "side-effects",
-    "state-machine",
-    "react-architecture",
-    "no-hooks",
-    "backend-runtime"
+    "headless-runtime",
+    "ui-agnostic",
+    "backend-safe",
+    "effect-orchestration",
+    "async-control",
+    "reactive-graph",
+    "computed-graph",
+    "scheduler",
+    "state-execution",
+    "no-framework",
+    "no-react",
+    "application-core"
   ],
 
   "devDependencies": {
