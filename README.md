@@ -1,29 +1,58 @@
-# ⚙️ intentx-core-z
+# 🧬 intentx-core-z
 
 [![NPM](https://img.shields.io/npm/v/intentx-core-z.svg)](https://www.npmjs.com/package/intentx-core-z) ![Downloads](https://img.shields.io/npm/dt/intentx-core-z.svg)
 
 <a href="https://codesandbox.io/p/devbox/vjmq53" target="_blank">LIVE EXAMPLE</a>
 
----
-
-**Minimal intent & reactive execution core for backend and logic runtimes**
-
-`intentx-core-z` is a **low-level core engine** that provides:
-- Intent routing & execution
-- Effect orchestration (retry, debounce, takeLatest)
-- Reactive computed graph
-- Deterministic scheduling & batching
-- Scope-aware intent isolation
-
-It is designed as a **foundation**, not a full framework.
-
-> No React  
-> No UI lifecycle  
-> No built-in store or atom  
+**Minimal intent & reactive execution core for logic runtimes.**
 
 ---
 
-## Install
+## 🧠 What is this?
+
+`intentx-core-z` is a **low-level execution engine** focused on *how logic runs*, not how UI renders or how state is stored.
+
+It provides:
+- Intent-based execution
+- Effect orchestration (debounce, throttle, cancellation)
+- Explicit reactivity (computed + effects)
+- Deterministic scheduling
+
+No framework assumptions. No hidden magic.
+
+---
+
+## 🚀 Use Cases
+
+- Backend command / intent handling
+- Domain & business rule engines
+- Workflow / automation runtimes
+- Framework adapters (React, Vue, Workers, CLI)
+- Testable logic cores (no UI dependency)
+
+---
+
+## 🧠 Mental Model
+
+```
+emit(intent)
+   ↓
+scoped handlers
+   ↓
+effect orchestration
+   ↓
+user-owned state mutation
+   ↓
+reactive invalidation
+   ↓
+scheduled recomputation
+```
+
+This library is about **execution**, not data modeling.
+
+---
+
+## 📦 Installation
 
 ```bash
 npm install intentx-core-z
@@ -31,206 +60,157 @@ npm install intentx-core-z
 
 ---
 
-## Mental Model
-
-```
-emit(intent)
-   ↓
-intent handlers (scoped)
-   ↓
-effects (retry / debounce / takeLatest)
-   ↓
-state mutation (user-owned)
-   ↓
-reactive graph invalidation
-   ↓
-scheduled effects / computeds
-```
-
-The core owns **execution**, not **data modeling**.
-
----
-
-## Basic Intent Example
+## 1️⃣ Intent Execution
 
 ```ts
-import { createIntentBus } from "intentx-core-z"
+import { createIntentBus } from "intentx-core-z";
 
-type State = { count: number }
+type State = { count: number };
+let state: State = { count: 0 };
 
-let state: State = { count: 0 }
-
-const bus = createIntentBus<State>((payload) => ({
+const bus = createIntentBus<State>((payload, scope) => ({
   state,
   payload,
   signal: new AbortController().signal,
-  emit: async (type, payload) => bus.emit(type, payload),
+  emit: (type, payload) => bus.emit(type, payload, scope),
   setState(fn) {
-    fn(state)
+    fn(state);
   },
-}))
+}));
 
-bus.on("inc", ({ setState }) => {
-  setState(s => {
-    s.count++
-  })
-})
+bus.on("increment", ({ setState }) => {
+  setState(s => { s.count++ });
+});
 
-await bus.emit("inc")
-console.log(state.count) // 1
+await bus.emit("increment");
+console.log(state.count); // 1
 ```
 
 ---
 
-## Intent Effects (takeLatest / debounce / retry)
+## 2️⃣ Async Effects
 
 ```ts
-import { intentEffect } from "intentx-core-z"
+import { intentEffect } from "intentx-core-z";
 
 bus.effect(
   "search",
   intentEffect(async ({ payload }) => {
-    console.log("searching:", payload)
+    console.log("Searching:", payload);
   })
     .debounce(300)
+    .throttle(1000)
     .takeLatest()
-)
+);
 ```
 
-Effects wrap handlers and control async behavior.
+### Supported effects
+- `debounce(ms)`
+- `throttle(ms)`
+- `takeLatest()`
+- `takeLeading()`
 
 ---
 
-## Reactive Computed Graph
+## 3️⃣ Reactive Computation
 
 ```ts
-import { createComputed, reactiveEffect } from "intentx-core-z"
+import { createComputed, reactiveEffect } from "intentx-core-z";
 
-let count = 1
+let count = 1;
 
-const double = createComputed(() => count * 2)
+const double = createComputed(() => count * 2);
 
 reactiveEffect(() => {
-  console.log("double =", double())
-})
+  console.log("double =", double());
+});
 
-count = 2
-// -> double = 4
+count = 2; // logs: double = 4
 ```
 
-- `createComputed` is lazy & dependency-tracked
-- `reactiveEffect` re-runs when dependencies invalidate
+No proxies. Explicit dependency tracking.
 
 ---
 
-## Scheduling & Priority
+## 4️⃣ Scheduling & Batching
 
 ```ts
-import { schedule } from "intentx-core-z"
-
-schedule(() => {
-  console.log("low priority")
-}, "low")
-
-schedule(() => {
-  console.log("high priority")
-}, "high")
-```
-
-Priorities:
-- `high`
-- `normal`
-- `low` (idle / background)
-
----
-
-## Batching
-
-```ts
-import { batch, queueJob } from "intentx-core-z"
+import { batch, queueJob } from "intentx-core-z";
 
 batch(() => {
-  queueJob(() => console.log("A"), "normal")
-  queueJob(() => console.log("B"), "high")
-})
+  queueJob(() => console.log("low"), "low");
+  queueJob(() => console.log("high"), "high");
+});
 ```
-
-Batching defers execution and preserves highest priority.
 
 ---
 
-## Scopes
+## 5️⃣ Scopes (Isolation)
 
 ```ts
-import { createScope } from "intentx-core-z"
+import { createScope } from "intentx-core-z";
 
-const admin = createScope("admin")
+const admin = createScope("admin");
 
 bus.on("reset", () => {
-  state.count = 0
-}, admin)
+  state.count = 0;
+}, admin);
 
-await bus.emit("reset", null, admin)
+await bus.emit("reset", null, admin);
 ```
-
-Scopes isolate intent handlers and effects.
 
 ---
 
-## Devtools Graph
+## 🔌 Using with eventbus-z (Signal Layer)
+
+`eventbus-z` is a perfect **signal transport** for `intentx-core-z`.
 
 ```ts
-import { trackNode, linkNodes } from "intentx-core-z"
+import EventBus from "eventbus-z";
+import { createIntentBus } from "intentx-core-z";
 
-const a = trackNode("atom", "count")
-const b = trackNode("computed", "double")
+const bus = createIntentBus(ctxPayload => ({
+  ...ctxPayload,
+  emit: (type, payload) => EventBus.$emit(type, payload),
+}));
 
-linkNodes(a, b)
+EventBus.$on("INCREMENT", payload => {
+  bus.emit("increment", payload);
+});
 ```
 
-Used internally for dependency visualization and debugging.
-
----
-
-## What This Library Is For
-
-- Backend intent execution
-- Domain logic orchestration
-- Custom state engines
-- Reactive runtimes
-- Framework adapters
-
-## What This Library Is NOT
-
-- ❌ React state library
-- ❌ UI framework
-- ❌ Opinionated data model
-- ❌ Full application framework
-
----
-
-## Architecture Recommendation
+**Recommended layering:**
 
 ```
-intentx-core-z        ← execution & orchestration
-        ↑
-state primitives      ← atom / entity / domain state
-        ↑
-framework adapters    ← React / Vue / Worker / CLI
+eventbus-z        → signal transport
+intentx-core-z   → execution & orchestration
+your state       → domain logic
+framework        → UI
 ```
 
 ---
 
-## Philosophy
+## 🧪 Devtools Graph (Optional)
 
-- Intent is the only entry point
-- Execution must be deterministic
-- Effects orchestrate, handlers mutate
-- Reactive graph stays explicit
-- Core stays small
+```ts
+import { trackNode, linkNodes } from "intentx-core-z";
+
+const a = trackNode("state", "count");
+const b = trackNode("computed", "double");
+
+linkNodes(a, b);
+```
 
 ---
 
-## License
+## 🚫 What this library is NOT
+
+❌ Not a UI state manager  
+❌ Not framework-specific  
+❌ Not opinionated about data models  
+
+---
+
+## 📜 License
 
 MIT

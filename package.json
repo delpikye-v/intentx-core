@@ -1,18 +1,14 @@
 {
   "name": "intentx-core-z",
-  "version": "1.0.0",
-
-  "description": "Minimal intent-first engine for business logic. Intent routing, effect orchestration, reactive graph, and deterministic scheduling. Backend-safe and UI-agnostic.",
-
+  "version": "2.0.0",
+  "description": "High-performance intent-driven execution engine. Orchestrates business logic via deterministic routing, managed effects, and a reactive dependency graph.",
   "license": "MIT",
   "author": "Delpi.Kye",
-
   "sideEffects": false,
-
+  "type": "module",
   "main": "build/index.cjs.js",
   "module": "build/index.esm.js",
   "types": "build/index.d.ts",
-
   "exports": {
     ".": {
       "types": "./build/index.d.ts",
@@ -30,55 +26,54 @@
       "require": "./build/devtools/index.cjs.js"
     }
   },
-
-  "files": ["build"],
-
+  "files": [
+    "build",
+    "README.md"
+  ],
   "scripts": {
     "clean": "rimraf build",
+    "dev": "rollup -c -w",
     "build": "rollup -c",
     "cb": "npm run clean && npm run build",
+    "lint": "tsc --noEmit",
     "prepublishOnly": "npm run cb"
   },
-
   "repository": {
     "type": "git",
-    "url": "https://github.com/delpikye-v/intentx-core.git"
+    "url": "git+https://github.com/delpikye-v/intentx-core.git"
   },
-
   "homepage": "https://github.com/delpikye-v/intentx-core#readme",
-
   "bugs": {
     "url": "https://github.com/delpikye-v/intentx-core/issues"
   },
-
   "keywords": [
-    "intent-engine",
-    "intent-first",
-    "logic-runtime",
-    "business-logic",
-    "headless-runtime",
-    "ui-agnostic",
-    "backend-safe",
-    "effect-orchestration",
-    "async-control",
+    "intent-driven",
+    "logic-engine",
     "reactive-graph",
-    "computed-graph",
-    "scheduler",
-    "state-execution",
-    "no-framework",
-    "no-react",
-    "application-core"
+    "state-orchestration",
+    "headless",
+    "deterministic",
+    "async-effects",
+    "backend-agnostic",
+    "domain-driven-design",
+    "event-loop",
+    "typescript"
   ],
-
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
     "rimraf": "^5.0.5",
-    "rollup": "^4.9.6",
+    "rollup": "^4.12.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.36.0",
-    "typescript": "^5.3.3",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "eventbus-z": "^2.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
