@@ -1,17 +1,2 @@
-export type IntentContext<S, P = any> = {
-    state: S;
-    payload: P;
-    emit(type: string, payload?: any): Promise<void>;
-    setState(fn: (s: S) => void): void;
-    signal: AbortSignal;
-};
-export type IntentHandler<S> = (ctx: IntentContext<S>) => any | Promise<any>;
-export type IntentEffect<S> = (next: IntentHandler<S>) => IntentHandler<S>;
-export type EffectBuilder<S> = {
-    (): IntentEffect<S>;
-    debounce(ms: number): EffectBuilder<S>;
-    throttle(ms: number): EffectBuilder<S>;
-    takeLatest(): EffectBuilder<S>;
-    takeLeading(): EffectBuilder<S>;
-};
-export declare function intentEffect<S>(body: (ctx: IntentContext<S>) => void | Promise<void>): EffectBuilder<S>;
+import { EffectBuilder } from "./types";
+export declare function intentEffect<S>(): EffectBuilder<S>;
