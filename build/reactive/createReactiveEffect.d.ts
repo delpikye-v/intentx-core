@@ -1,1 +1,3 @@
-export declare function createReactiveEffect(context: any, scheduler: (job: () => void, p?: any) => void): (fn: () => void, priority?: any) => () => void;
+import { Priority } from "../scheduler";
+import type { ReactiveContext, Scheduler } from "./types";
+export declare function createReactiveEffect(context: ReactiveContext, scheduler: Scheduler): (fn: () => void, priority?: Priority) => () => void;

@@ -1,6 +1,6 @@
 {
   "name": "intentx-core-z",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Deterministic intent-driven execution engine for orchestrating domain logic via reactive graphs and managed effects.",
   "license": "MIT",
   "author": "Delpi.Kye",
