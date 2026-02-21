@@ -1,1 +1,1 @@
-export declare function createComputed<T>(getter: () => T): () => T;
+export declare function computed<T>(getter: () => T): () => T;

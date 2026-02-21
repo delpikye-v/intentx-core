@@ -1,10 +1,14 @@
 export { createScope } from "./scope";
 export type { Scope } from "./scope";
+export { createComputed } from "./reactive/createComputed";
+export { createReactiveEffect } from "./reactive/createReactiveEffect";
+export { computed } from "./reactive/computed";
 export { reactiveEffect } from "./reactive/reactiveEffect";
-export { createComputed } from "./reactive/computed";
+export { signal } from "./reactive/signal";
+export type { Signal } from "./reactive/signal";
+export { batch } from "./scheduler/batch";
 export { schedule } from "./scheduler/scheduler";
 export type { Priority } from "./scheduler/scheduler";
-export { batch } from "./scheduler/batch";
 export { createIntentBus } from "./intent/intentBus";
 export { intentEffect } from "./intent/intentEffect";
 export type { IntentHandler, IntentContext, } from "./intent/types";

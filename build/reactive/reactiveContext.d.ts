@@ -1,5 +1,5 @@
-import type { GraphNode } from "../devtools/graph";
+export type EffectRunner = () => void;
 export declare const reactiveContext: {
-    activeNode: GraphNode | null;
-    activeEffect: (() => void) | null;
+    activeEffect: EffectRunner | null;
+    activeDeps: Set<Set<EffectRunner>> | null;
 };

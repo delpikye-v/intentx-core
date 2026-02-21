@@ -4,5 +4,8 @@ export type GraphNode = {
     label?: string;
     deps: Set<GraphNode>;
 };
+export declare const graphContext: {
+    activeNode: GraphNode | null;
+};
 export declare function trackNode(type: string, label?: string): GraphNode;
 export declare function linkNodes(from: GraphNode, to: GraphNode): void;

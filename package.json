@@ -1,35 +1,29 @@
 {
   "name": "intentx-core-z",
-  "version": "2.1.0",
-  "description": "High-performance intent-driven execution engine. Orchestrates business logic via deterministic routing, managed effects, and a reactive dependency graph.",
+  "version": "2.2.0",
+  "description": "Deterministic intent-driven execution engine for orchestrating domain logic via reactive graphs and managed effects.",
   "license": "MIT",
   "author": "Delpi.Kye",
   "sideEffects": false,
+
   "type": "module",
   "main": "build/index.cjs.js",
   "module": "build/index.esm.js",
   "types": "build/index.d.ts",
+
   "exports": {
     ".": {
       "types": "./build/index.d.ts",
       "import": "./build/index.esm.js",
       "require": "./build/index.cjs.js"
-    },
-    "./react": {
-      "types": "./build/react/index.d.ts",
-      "import": "./build/react/index.esm.js",
-      "require": "./build/react/index.cjs.js"
-    },
-    "./devtools": {
-      "types": "./build/devtools/index.d.ts",
-      "import": "./build/devtools/index.esm.js",
-      "require": "./build/devtools/index.cjs.js"
     }
   },
+
   "files": [
     "build",
     "README.md"
   ],
+
   "scripts": {
     "clean": "rimraf build",
     "dev": "rollup -c -w",
@@ -38,27 +32,40 @@
     "lint": "tsc --noEmit",
     "prepublishOnly": "npm run cb"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/delpikye-v/intentx-core.git"
   },
+
   "homepage": "https://github.com/delpikye-v/intentx-core#readme",
+
   "bugs": {
     "url": "https://github.com/delpikye-v/intentx-core/issues"
   },
+
   "keywords": [
     "intent-driven",
-    "logic-engine",
+    "execution-engine",
     "reactive-graph",
-    "state-orchestration",
-    "headless",
     "deterministic",
-    "async-effects",
-    "backend-agnostic",
-    "domain-driven-design",
-    "event-loop",
-    "typescript"
+    "state-orchestration",
+    "effect-management",
+    "priority-scheduler",
+    "domain-driven",
+    "headless",
+    "framework-agnostic",
+    "business-logic",
+    "event-driven",
+    "typescript",
+    "runtime-engine",
+    "logic-composition"
   ],
+
+  "peerDependencies": {
+    "eventbus-z": ">=2.3.0"
+  },
+
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -70,9 +77,7 @@
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
-  "dependencies": {
-    "eventbus-z": "^2.2.0"
-  },
+
   "engines": {
     "node": ">=16.0.0"
   }
